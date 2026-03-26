@@ -21,6 +21,11 @@ npm install
 npm run dev
 ```
 
+## Resources
+
+- [Claude Design Skills — 3D & Web Design](https://github.com/freshtechbro/claudedesignskills)
+- [Original: TheVertMenthe by Etienne Dault-Lafon](https://thevertmenthe.dault-lafon.fr/)
+
 ## Tech Stack
 
 - [Three.js](https://threejs.org/) + [React Three Fiber](https://docs.pmnd.rs/react-three-fiber)
