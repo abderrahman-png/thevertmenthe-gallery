@@ -259,7 +259,7 @@ function Character({ targetPos, onPositionUpdate }) {
       meshRef.current.rotation.y = facingAngle.current;
 
       setWalking(true);
-    } else {
+    } else if (targetPos) {
       // Click-to-move fallback
       const target = new THREE.Vector3(targetPos[0], 0, targetPos[2]);
       const dist = current.distanceTo(target);
@@ -438,7 +438,7 @@ function FloorClickPlane({ onFloorClick }) {
    3D SCENE
    ═══════════════════════════════════════════════════════════════ */
 function Scene({ onZoomArtwork, zoomedArtwork }) {
-  const [targetPos, setTargetPos] = useState([0, 0, 3]);
+  const [targetPos, setTargetPos] = useState(null);
   const [charPos, setCharPos] = useState([0, 0, 3]);
 
   const hotspots = useMemo(() => [
