@@ -160,7 +160,7 @@ function ProjectZone({ zone, characterPos, onApproach }) {
       </mesh>
 
       {/* HTML content */}
-      <Html transform occlude position={[0, 0, FRAME_DEPTH / 2 + 0.01]}
+      <Html transform position={[0, 0, FRAME_DEPTH / 2 + 0.01]}
             style={{ width: "280px", height: "220px", pointerEvents: "none" }}>
         <div style={{
           width: "280px", height: "220px", padding: "20px",
@@ -249,7 +249,7 @@ function SkillsZone({ zone, characterPos, onApproach }) {
         <meshBasicMaterial color="#0d1520" />
       </mesh>
 
-      <Html transform occlude position={[0, 0, FRAME_DEPTH / 2 + 0.01]}
+      <Html transform position={[0, 0, FRAME_DEPTH / 2 + 0.01]}
             style={{ width: "280px", height: "220px", pointerEvents: "none" }}>
         <div style={{
           width: "280px", height: "220px", padding: "18px",
@@ -313,7 +313,7 @@ function ExperienceZone({ zone, characterPos, onApproach }) {
         <meshBasicMaterial color="#0d1520" />
       </mesh>
 
-      <Html transform occlude position={[0, 0, FRAME_DEPTH / 2 + 0.01]}
+      <Html transform position={[0, 0, FRAME_DEPTH / 2 + 0.01]}
             style={{ width: "280px", height: "220px", pointerEvents: "none" }}>
         <div style={{
           width: "280px", height: "220px", padding: "18px",
@@ -379,7 +379,7 @@ function AboutZone({ zone, characterPos, onApproach }) {
         <meshBasicMaterial color="#0d1520" />
       </mesh>
 
-      <Html transform occlude position={[0, 0, FRAME_DEPTH / 2 + 0.01]}
+      <Html transform position={[0, 0, FRAME_DEPTH / 2 + 0.01]}
             style={{ width: "280px", height: "220px", pointerEvents: "none" }}>
         <div style={{
           width: "280px", height: "220px", padding: "18px",
@@ -442,7 +442,7 @@ function ContactZone({ zone, characterPos, onApproach }) {
         <meshBasicMaterial color="#0d1520" />
       </mesh>
 
-      <Html transform occlude position={[0, 0, FRAME_DEPTH / 2 + 0.01]}
+      <Html transform position={[0, 0, FRAME_DEPTH / 2 + 0.01]}
             style={{ width: "280px", height: "220px", pointerEvents: "none" }}>
         <div style={{
           width: "280px", height: "220px", padding: "18px",
@@ -606,13 +606,31 @@ function Character({ targetPos, onPositionUpdate }) {
   return (
     <group ref={meshRef} position={[0, 0.5, 3]}>
       {/* Billboard avatar — always faces camera horizontally */}
-      <Billboard lockY={true} position={[0, 0.15, 0]}>
-        <AvatarSprite />
-      </Billboard>
+      <Suspense fallback={<AvatarFallback />}>
+        <Billboard lockY={true} position={[0, 0.15, 0]}>
+          <AvatarSprite />
+        </Billboard>
+      </Suspense>
       {/* Shadow on floor */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.49, 0]}>
         <circleGeometry args={[0.35, 32]} />
         <meshBasicMaterial color="#4a9eff" transparent opacity={0.1} />
+      </mesh>
+    </group>
+  );
+}
+
+/* Fallback avatar (simple colored capsule) while texture loads */
+function AvatarFallback() {
+  return (
+    <group>
+      <mesh castShadow>
+        <capsuleGeometry args={[0.18, 0.5, 8, 16]} />
+        <meshStandardMaterial color="#4a9eff" roughness={0.8} />
+      </mesh>
+      <mesh position={[0, 0.5, 0]} castShadow>
+        <sphereGeometry args={[0.18, 16, 16]} />
+        <meshStandardMaterial color="#4a9eff" roughness={0.7} />
       </mesh>
     </group>
   );
